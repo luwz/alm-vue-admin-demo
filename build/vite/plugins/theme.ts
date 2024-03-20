@@ -20,7 +20,7 @@ export const ThemePlugin = () => {
 				{scopeName: "theme-dark-orange", path: path.resolve("src/theme/dark-orange.less")},
 				{scopeName: "theme-dark-purple", path: path.resolve("src/theme/dark-purple.less")}
 			],
-			defaultScopeName: "theme-dark",      // 默认取 multipleScopeVars[0].scopeName
+			defaultScopeName: "theme-bright",      // 默认取 multipleScopeVars[0].scopeName
 			extract: false                          // 在生产模式是否抽取独立的主题css文件
 		}
 	});

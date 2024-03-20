@@ -196,7 +196,7 @@
 		}
 
 		.content-container {
-			overflow: scroll;
+			overflow: auto;
 
 			.breadcrumb-container {
 				width: 100%;

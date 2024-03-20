@@ -7,7 +7,7 @@ export const BASE_NAME = "";
 // 全局的语言配置   zh - 中文    en - 英文
 export const GLOBAL_LANG = "zh";
 // 启用主题切换
-export const ENABLE_THEME = true;
+export const ENABLE_THEME = false;
 // 开启插件配置
 // ----------------------------------
 // 强制ts报错
