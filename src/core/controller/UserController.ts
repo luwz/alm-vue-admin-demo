@@ -10,7 +10,7 @@ export class UserController extends Controller{
 	 * @param password 密码
 	 */
 	public static async userLogin(username: string, password: string): Promise<any> {
-		return await super.asyncMock(async () => {
+		return await super.async(async () => {
 			const query: LoginQueryDTO = {user: username, password: password};
 			return await requestUserLogin(query);
 		});

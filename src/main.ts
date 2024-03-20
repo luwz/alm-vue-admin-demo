@@ -2,7 +2,6 @@ import {createApp} from "vue";
 import App from "./App.vue";
 import piniaStore from "./store";
 import router from "./router";
-import "./assets/fonts/style.css";
 import "./assets/css/global.less";
 
 // 多语言

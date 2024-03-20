@@ -18,14 +18,14 @@
 					@finish="onFinish"
 				>
 					<a-form-item name="username" :rules="[{required: true, message: '用户名必填!'}]" :validate-trigger="'change'">
-						<a-input v-model:value="formState.username">
+						<a-input v-model:value="formState.username" placeholder="测试账号admin">
 							<template #prefix>
 								<user-outlined style="color: rgba(0, 0, 0, 0.25);"></user-outlined>
 							</template>
 						</a-input>
 					</a-form-item>
 					<a-form-item name="password" :rules="[{required: true, message: '密码必填!'}]" :validate-trigger="'change'">
-						<a-input-password v-model:value="formState.password">
+						<a-input-password v-model:value="formState.password" placeholder="测试密码admin">
 							<template #prefix>
 								<lock-outlined style="color: rgba(0, 0, 0, 0.25);"></lock-outlined>
 							</template>
@@ -50,6 +50,7 @@
 	import {UserController} from "/@/core/controller/UserController";
 	import {useUserStore} from "/@/store/modules/user";
 	import {UserOutlined, LockOutlined} from "@ant-design/icons-vue";
+	import toast from "/@/core/utils/toast";
 
 	// 定义宽度
 	let drawerWidth = ref<string>("360px");
@@ -73,7 +74,7 @@
 	// 验证成功后进行数据请求
 	const onFinish = async (values: any) => {
 		const data = await UserController.userLogin(values.username, values.password);
-		if (typeof data !== "undefined" && data && typeof data["accessToken"] !== "undefined") {
+		if (typeof data !== "undefined" && data && typeof data["accessToken"] !== "undefined" && data["accessToken"]) {
 			const accessToken: string = data["accessToken"];
 			const accessExpire: number = data["accessExpire"];
 			// 默认AccessToken的过期时间是12个小时
@@ -84,6 +85,8 @@
 
 			// 页面跳转
 			await router.push("/");
+		} else {
+			toast.error("用户名或者密码错误!");
 		}
 	};
 </script>
