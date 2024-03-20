@@ -94,7 +94,9 @@
 <route>
 {
 	meta: {
-		requiresAuth: false
+		requiresAuth: false,
+		layout: "UserLayout",
+		title: ["登录"]
 	}
 }
 </route>
