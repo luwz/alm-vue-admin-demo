@@ -6,7 +6,7 @@
 					<div class="header">
 						<a href="/">
 							<img src="/@/assets/images/logo.png" class="logo" alt="logo">
-							<span class="title">项目模板系统1</span>
+							<span class="title">alm-vue</span>
 						</a>
 					</div>
 				</div>

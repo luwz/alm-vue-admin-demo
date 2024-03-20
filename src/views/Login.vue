@@ -10,7 +10,7 @@
 		>
 			<div class="login">
 				<div class="login-top text-color-main">
-					项目模板系统
+					alm-vue
 				</div>
 				<a-form
 					:model="formState"
@@ -73,10 +73,11 @@
 	// 验证成功后进行数据请求
 	const onFinish = async (values: any) => {
 		const data = await UserController.userLogin(values.username, values.password);
-		if (typeof data !== "undefined" && data && typeof data["access_token"] !== "undefined") {
-			const accessToken: string = data["access_token"];
+		if (typeof data !== "undefined" && data && typeof data["accessToken"] !== "undefined") {
+			const accessToken: string = data["accessToken"];
+			const accessExpire: number = data["accessExpire"];
 			// 默认AccessToken的过期时间是12个小时
-			const accessExpire: number = new Date().getTime() + (12 * 3600 * 1000);
+			// const accessExpire: number = new Date().getTime() + (12 * 3600 * 1000);
 			const userStore = useUserStore();
 			userStore["accessToken"] = accessToken;
 			userStore["accessExpire"] = accessExpire;

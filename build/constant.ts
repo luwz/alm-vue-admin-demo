@@ -17,4 +17,4 @@ export const ESLINT = true;
 // 开始stylelint
 export const STYLE_LINT = true;
 // 是否开启生产环境的MOCK功能 默认为true
-export const PROD_MOCK = false;
+export const PROD_MOCK = true;

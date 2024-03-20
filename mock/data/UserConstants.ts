@@ -1,0 +1,7 @@
+export enum UserConstants {
+	MOCK_USER = "admin",
+
+	MOCK_PASSWORD = "admin",
+
+	MOCK_ACCESS_TOKEN = "670B14728AD9902AECBA32E22FA4F6BD",
+}

@@ -1,4 +1,4 @@
 export enum ApiConstants {
 	// 登录
-	USER_LOGIN = "/api/login.do"
+	USER_LOGIN = "/mock/user/login"
 }
