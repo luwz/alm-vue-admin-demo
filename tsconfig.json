@@ -1,0 +1,50 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "node",
+		"strict": true,
+		"noLib": false,
+		"forceConsistentCasingInFileNames": true,		// 强制区分⼤⼩写
+		"allowSyntheticDefaultImports": true,
+		"strictFunctionTypes": false,
+		"jsx": "preserve",
+		"noImplicitThis": true,
+		"baseUrl": ".",
+		"allowJs": false,
+		"sourceMap": false,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"experimentalDecorators": true,
+		"lib": ["esnext", "dom"],
+		"noImplicitAny": false,
+		"skipLibCheck": true,
+		"types": ["vite/client", "vite-plugin-vue-layouts/client", "vite-plugin-pages/client"],
+		"removeComments": true,
+		"useDefineForClassFields": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"paths": {
+			"/@/*": ["src/*"],
+			"/#/*": ["types/*"]
+		}
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.d.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue",
+		"types/*.d.ts",
+		"types/*.ts",
+		"types/**/*.d.ts",
+		"types/**/*.ts",
+		"build/**/*.ts",
+		"build/**/*.d.ts",
+		"packages/**/*.ts",
+		"packages/**/*.d.ts",
+		"vite.config.ts"
+	],
+	"exclude": ["node_modules", "tests/server/**/*.ts", "dist", "**/*.js"]
+}
