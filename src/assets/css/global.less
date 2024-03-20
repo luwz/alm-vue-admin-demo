@@ -8,11 +8,26 @@
 .ant-btn-primary:hover, .ant-btn-primary:focus {
 	color: @btn-primary-color !important;
 }
-
 .anticon:hover {
 	color: @primary-color;
 }
-
 .ant-picker-input > input[disabled] {
 	background-color: inherit !important;
+}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+	width: 12px;
+	height: 12px;
+	background: @scrollbar-bg !important;
+}
+
+::-webkit-scrollbar-thumb {
+	width: 12px;
+	height: 12px;
+	background: @scrollbar-thumb-bg !important;
+}
+
+::-webkit-scrollbar-corner {
+	background: @scrollbar-bg !important;
 }
