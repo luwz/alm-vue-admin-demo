@@ -5,18 +5,13 @@
 		"icon": ""
 	},
 	{
-		"key": "/system",
-		"title": "系统管理",
+		"key": "/user",
+		"title": "用户管理",
 		"icon": "",
 		"children": [
 			{
-				"key": "/user",
-				"title": "用户管理",
-				"icon": ""
-			},
-			{
-				"key": "/adminuser",
-				"title": "管理员管理",
+				"key": "",
+				"title": "用户列表",
 				"icon": ""
 			}
 		]

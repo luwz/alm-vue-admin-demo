@@ -32,7 +32,7 @@ http.interceptors.response.use((response: AxiosResponse) => {
  * @param url 接口地址
  * @param params 请求参数
  */
-export function PostHttp<T>(url: string, params: T): Promise<Result> {
+export function PostHttp<T>(url: string, params?: T): Promise<Result> {
 	return http.post(url, params);
 }
 
@@ -42,7 +42,7 @@ export function PostHttp<T>(url: string, params: T): Promise<Result> {
  * @param url 接口地址
  * @param params 请求参数
  */
-export function GetHttp<T>(url: string, params: T): Promise<Result> {
+export function GetHttp<T>(url: string, params?: T): Promise<Result> {
 	return http.get(url, {params: params});
 }
 
@@ -52,7 +52,7 @@ export function GetHttp<T>(url: string, params: T): Promise<Result> {
  * @param url 接口地址
  * @param params 请求参数
  */
-export function PutHttp<T>(url: string, params: T): Promise<Result> {
+export function PutHttp<T>(url: string, params?: T): Promise<Result> {
 	return http.put(url, params);
 }
 
@@ -62,7 +62,7 @@ export function PutHttp<T>(url: string, params: T): Promise<Result> {
  * @param url 接口地址
  * @param params 请求参数
  */
-export function PatchHttp<T>(url: string, params: T): Promise<Result> {
+export function PatchHttp<T>(url: string, params?: T): Promise<Result> {
 	return http.patch(url, params);
 }
 
@@ -72,7 +72,7 @@ export function PatchHttp<T>(url: string, params: T): Promise<Result> {
  * @param url 接口地址
  * @param params 请求参数
  */
-export function DeleteHttp<T>(url: string, params: T): Promise<Result> {
+export function DeleteHttp<T>(url: string, params?: T): Promise<Result> {
 	return http.delete(url, {params: params});
 }
 
@@ -82,7 +82,7 @@ export function DeleteHttp<T>(url: string, params: T): Promise<Result> {
  * @param url 接口地址
  * @param params 请求参数
  */
-export function HeadHttp<T>(url: string, params: T): Promise<Result> {
+export function HeadHttp<T>(url: string, params?: T): Promise<Result> {
 	return http.head(url, {params: params});
 }
 

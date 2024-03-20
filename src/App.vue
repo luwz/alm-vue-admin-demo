@@ -1,6 +1,7 @@
 <template>
 	<a-config-provider :locale="locale">
-		<router-view :key="route.path + (typeof route.query.t !== 'undefined' && route.query.t ? route.query.t : '')" />
+		<!--  :key="route.path"  + (typeof route.query.t !== 'undefined' && route.query.t ? route.query.t : '') -->
+		<router-view />
 	</a-config-provider>
 </template>
 <script setup lang="ts">

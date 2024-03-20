@@ -1,64 +1,22 @@
 <template>
-	<a-layout style="height: 100%" class="page-layout">
-		<!-- 左侧 -->
-		<a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-			<div class="logo">
+	<a-layout class="admin-layout">
+		<a-layout-header class="header-layout">
+			<div class="header-logo">
 				Admin
 			</div>
-			<!-- 导航栏 -->
-			<a-menu
-				v-model:selectedKeys="selectedKeys"
-				v-model:openKeys="openKeys"
-				class="menu-container"
-				theme="light"
-				mode="inline"
-				@click="changeMenu"
-			>
-				<template v-for="item in menuList" :key="item.key">
-					<template v-if="!item.children">
-						<a-menu-item :key="item.key">
-							<template #icon>
-								<component :is="item.icon" />
-							</template>
-							{{ item.title }}
-						</a-menu-item>
-					</template>
-					<template v-else>
-						<a-sub-menu :key="item.key">
-							<template #icon>
-								<component :is="item.icon" />
-							</template>
-							<template #title>
-								{{ item.title }}
-							</template>
-							<a-menu-item v-for="i in item.children" :key="i.key">
-								<template #icon>
-									<component :is="i.icon" />
-								</template>
-								{{ i.title }}
-							</a-menu-item>
-						</a-sub-menu>
-					</template>
-				</template>
-			</a-menu>
-		</a-layout-sider>
-		<!-- 右侧 -->
-		<a-layout>
-			<!-- 右侧头部 -->
-			<a-layout-header class="header-container">
-				<div>
-					<menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)" />
-					<menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
-				</div>
-				<a-dropdown class="header-right">
-					<a class="ant-dropdown-link" @click.prevent>
-						<a-avatar style="background-color: #87d068" size="small" class="user-icon">
+			<div class="header-menu">
+				头部区域
+			</div>
+			<div class="header-user">
+				<a-dropdown class="header-user-info">
+					<div class="ant-dropdown-link" @click.prevent>
+						<a-avatar size="small" class="user-icon">
 							<template #icon>
 								<UserOutlined />
 							</template>
 						</a-avatar>
-						<div>用户名</div>
-					</a>
+						<div>用户</div>
+					</div>
 					<template #overlay>
 						<a-menu style="text-align: center">
 							<a-menu-item>
@@ -72,21 +30,54 @@
 						</a-menu>
 					</template>
 				</a-dropdown>
-			</a-layout-header>
-			<!-- 内容 -->
+			</div>
+		</a-layout-header>
+		<a-layout>
+			<a-layout-sider>
+				<a-menu
+					v-model:selectedKeys="selectedKeys"
+					class="menu-container"
+					theme="light"
+					mode="inline"
+					@click="changeMenu"
+				>
+					<template v-for="item in menus" :key="item.key">
+						<template v-if="!item.children">
+							<a-menu-item :key="item.key">
+								<template #icon>
+									<component :is="item.icon" />
+								</template>
+								{{ item.title }}
+							</a-menu-item>
+						</template>
+						<template v-else>
+							<a-sub-menu :key="item.key">
+								<template #icon>
+									<component :is="item.icon" />
+								</template>
+								<template #title>
+									{{ item.title }}
+								</template>
+								<a-menu-item v-for="i in item.children" :key="i.key">
+									<template #icon>
+										<component :is="i.icon" />
+									</template>
+									{{ i.title }}
+								</a-menu-item>
+							</a-sub-menu>
+						</template>
+					</template>
+				</a-menu>
+			</a-layout-sider>
 			<a-layout-content class="content-container">
-				<!-- 面包屑 -->
-				<div>
-					<div class="breadcrumb-container">
-						<a-breadcrumb>
-							<a-breadcrumb-item v-for="item in breadcrumbList" :key="item">
-								{{ item }}
-							</a-breadcrumb-item>
-						</a-breadcrumb>
-					</div>
+				<div :key="Math.random()" class="breadcrumb-container">
+					<a-breadcrumb>
+						<a-breadcrumb-item v-for="item in breadcrumbs" :key="item">
+							{{ item }}
+						</a-breadcrumb-item>
+					</a-breadcrumb>
 				</div>
-				<!-- 内容 -->
-				<div class="page-content">
+				<div class="admin-content">
 					<router-view />
 				</div>
 			</a-layout-content>
@@ -94,117 +85,113 @@
 	</a-layout>
 </template>
 <script lang="ts" setup>
-	import {ref, reactive, watch} from "vue";
+	import {onMounted, ref, watch} from "vue";
 	import {useRouter, useRoute} from "vue-router";
 	import {useUserStore} from "/@/store/modules/user";
-	import {MenuUnfoldOutlined, MenuFoldOutlined, UserOutlined, LogoutOutlined} from "@ant-design/icons-vue";
+	import {UserOutlined, LogoutOutlined} from "@ant-design/icons-vue";
+	import {CommonController} from "/@/core/controller/CommonController";
 	import {MenuDTO} from "/@/core/dto/menu/MenuDTO";
+	const {push} = useRouter();
+	const route = useRoute();
 
-	// 获取路由和实例
-	const $router = useRouter();
-	const $route = useRoute();
-
-	// 菜单配置
-	let selectedKeys = ref<string[]>(["/"]);
-	let openKeys = reactive([]);
-	let breadcrumbList = ref($route.meta.title);
-
-	// 初始化面包
-	watch($route, (newRoute) => {
-		breadcrumbList.value = newRoute.meta.title;
-		selectedKeys.value = [];
-		let arr = $route.path.split("/");
-		for (let index = 1; index < arr.length; index++) {
-			selectedKeys.value[index - 1] = "/" + arr[index];
-		}
+	//
+	const selectedKeys = ref<string[]>([]);
+	const menus = ref<MenuDTO[]>([]);
+	const breadcrumbs = ref<any>(route.meta.title);
+	onMounted(async () => {
+		// 初始化菜单
+		await initMenus();
 	});
 
-	// 改变菜单
-	let collapsed = ref<boolean>(false); // 菜单是否展开
-	const menuList = reactive<MenuDTO[]>([]);
-	let changeMenu = ({item, key, keyPath}) => {
-		// console.log("changeMenu", item, key, keyPath);
+	// 初始化菜单
+	const initMenus = async () => {
+		menus.value = await CommonController.menus();
 	};
+
+	// 改变菜单
+	const changeMenu = ({keyPath}) => {
+		let url = "";
+		keyPath.forEach((item) => {
+			url += item;
+		});
+		push(url);
+	};
+
+	// 初始化面包
+	watch(route, (newRoute) => {
+		breadcrumbs.value = newRoute.meta.title;
+	}, {deep: true});
+
+	// 选中的菜单
+	const arr = route.path.split("/");
+	if (arr.length > 1) {
+		arr.shift();
+	}
+	let arr2 = [] as Array<any>;
+	arr.forEach((item) => arr2.push("/" + item));
+	selectedKeys.value = arr2;
 
 	// 退出登录
 	const logOut = () => {
 		const userStore = useUserStore();
 		userStore["accessToken"] = null;
 		userStore["accessExpire"] = 0;
+
 		// 页面跳转
-		$router.push("/login");
+		push("/login");
 	};
 
 	// 进入个人中心
 	const goPersonal = () => {
-		$router.push("/personal");
+		push("/personal");
 	};
 </script>
-<style lang="scss" scoped>
-	.trigger {
-		font-size: 14px;
-		line-height: 64px;
-		padding: 0 24px;
-		cursor: pointer;
-		transition: color 0.3s;
-	}
-
-	.trigger:hover {
-		color: #1890ff;
-	}
-
-	.logo {
-		width: 200px;
-		height: 60px;
-		line-height: 60px;
-		background: rgba(255, 255, 255, 0.3);
-	}
-
-	.site-layout .site-layout-background {
-		background: #fff;
-	}
-
-	.page-layout {
+<style lang="less" scoped>
+	.admin-layout {
+		width: 100%;
 		min-width: 1280px;
+		height: 100%;
 
-		.logo {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			overflow: hidden;
-
-			.title {
-				margin: 0 0 0 10px;
-				font-size: 16px;
-				white-space: nowrap;
-			}
-		}
-
-		.menu-container {
-			height: calc(100% - 60px);
-		}
-
-		.header-container {
-			display: flex;
-			justify-content: space-between;
-			box-shadow: 0 7px 5px -5px rgba(0, 0, 0, 0.06);
-			z-index: 999;
+		.header-layout {
+			width: 100%;
 			height: 60px;
-			background: #fff;
-			padding: 0;
+			padding: 0 !important;
+			display: flex;
+			border-bottom: 1px solid @border-color-split;
 
-			.header-right {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				padding: 0 30px;
-				cursor: pointer;
-				color: #000;
+			.header-logo {
+				flex: 0 0 200px;
+				text-align: center;
 
-				.user-icon {
-					font-size: 12px;
-					margin-right: 8px;
+				.title {
+					margin: 0 0 0 10px;
+					font-size: 16px;
+					white-space: nowrap;
 				}
+			}
+
+			.header-menu {
+				flex: 1;
+				text-align: left; /* 文本内容靠左 */
+			}
+
+			.header-user {
+				flex: 0 0 80px;
+
+				.header-user-info {
+					width: 100%;
+					height: 60px;
+					display: flex;
+					align-items: center;
+
+					.user-icon {
+						margin-right: 5px;
+					}
+				}
+			}
+
+			.header-user:hover {
+				cursor: pointer;
 			}
 		}
 
@@ -213,29 +200,16 @@
 
 			.breadcrumb-container {
 				width: 100%;
-				height: 50px;
+				height: 32px;
+				line-height: 32px;
 				display: flex;
 				align-items: center;
-				padding: 0 24px;
-				margin-bottom: 24px;
-				background-color: #fff;
-				// box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+				padding: 0 10px;
 			}
 
-			.page-content {
-				margin: 24px 20px;
-				// padding: 24px;
-				// min-height: calc(100% - 100px);
-				// background: #fff;
+			.admin-content {
+				margin: 10px;
 			}
 		}
-	}
-
-	.content-container::-webkit-scrollbar {
-		display: none;
-	}
-
-	.content-container {
-		-ms-overflow-style: none;
 	}
 </style>

@@ -1,7 +1,7 @@
 import {Controller} from "/@/core/controller/Controller";
-import {requestUserLogin} from "/@/core/models/aboutUser";
 import {LoginQueryDTO} from "/@/core/dto/login/LoginQueryDTO";
-
+import {PostHttp} from "/@/core/api/http";
+import {ApiConstants} from "/@/core/api/ApiConstants";
 export class UserController extends Controller{
 	/**
 	 * 用户登录
@@ -12,7 +12,7 @@ export class UserController extends Controller{
 	public static async userLogin(username: string, password: string): Promise<any> {
 		return await super.async(async () => {
 			const query: LoginQueryDTO = {user: username, password: password};
-			return await requestUserLogin(query);
+			return await PostHttp(ApiConstants.USER_LOGIN, query);
 		});
 	}
 }
