@@ -12,5 +12,5 @@ export interface LoginFormDTO {
 	/**
 	 * @var 记住我
 	 */
-	remember: boolean
+	remember?: boolean
 }
