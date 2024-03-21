@@ -33,7 +33,7 @@
 			</div>
 		</a-layout-header>
 		<a-layout>
-			<a-layout-sider>
+			<a-layout-sider class="sider-layout">
 				<a-menu
 					v-model:selectedKeys="selectedKeys"
 					class="menu-container"
@@ -77,7 +77,7 @@
 						</a-breadcrumb-item>
 					</a-breadcrumb>
 				</div>
-				<div class="admin-content">
+				<div class="main-content">
 					<router-view />
 				</div>
 			</a-layout-content>
@@ -158,6 +158,7 @@
 			padding: 0 !important;
 			display: flex;
 			border-bottom: 1px solid @border-color-split;
+			background: @layout-header-background;
 
 			.header-logo {
 				flex: 0 0 200px;
@@ -186,6 +187,10 @@
 
 					.user-icon {
 						margin-right: 5px;
+
+						.anticon-user:hover {
+							color: inherit;
+						}
 					}
 				}
 			}
@@ -195,7 +200,13 @@
 			}
 		}
 
+		.sider-layout {
+			background: @layout-sider-background;
+		}
+
 		.content-container {
+			width: 100%;
+			height: 100%;
 			overflow: auto;
 
 			.breadcrumb-container {
@@ -205,11 +216,18 @@
 				display: flex;
 				align-items: center;
 				padding: 0 10px;
+				background: @body-background;
 			}
 
-			.admin-content {
-				margin: 10px;
+			.main-content {
+				width: 100%;
+				height: calc(100% - 32px);
+				padding: 10px;
 			}
+		}
+
+		.menu-container {
+			background: @menu-bg;
 		}
 	}
 </style>
